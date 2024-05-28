@@ -9,6 +9,9 @@ packages = [{include = "api_project"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 pytest = "^8.2.1"
+requests = "^2.32.2"
+pyqt6 = "^6.7.0"
+
 
 
 [build-system]
