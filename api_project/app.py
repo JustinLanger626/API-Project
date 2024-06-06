@@ -6,7 +6,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QTextEdit,
-    QPushButton )
+    QPushButton,
+    QHBoxLayout )
 from PyQt6.QtGui import QPalette, QColor, QFont
 import controller
 
@@ -20,8 +21,16 @@ class MainWindow(QMainWindow):
         title = QLabel("Hello")
         title.setFont(QFont("Calibri",20))
 
-        button = QPushButton("get next movie")
-        button.clicked.connect(self.getmovie)
+        button_layout = QHBoxLayout()
+
+        next_button = QPushButton("Next Movie")
+        next_button.clicked.connect(self.getmovie)
+
+        back_button = QPushButton("Previous Movie")
+        back_button.clicked.connect(self.getmovie)
+
+        button_layout.addWidget(back_button)
+        button_layout.addWidget(next_button)
 
         self.movie_text = QTextEdit()
 
@@ -29,7 +38,7 @@ class MainWindow(QMainWindow):
 
         #add widgets
         layout.addWidget(title)
-        layout.addWidget(button)
+        layout.addLayout(button_layout)
         layout.addWidget(self.movie_text)
         layout.addStretch()
 
