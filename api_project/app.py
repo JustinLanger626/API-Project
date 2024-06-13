@@ -18,6 +18,11 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("My App")
 
+        #movie data
+        self.movies = []
+        self.next_release = ""
+        self.current_movie_index = 0
+
         title = QLabel("Hello")
         title.setFont(QFont("Calibri",20))
 
@@ -27,7 +32,7 @@ class MainWindow(QMainWindow):
         next_button.clicked.connect(self.getmovie)
 
         back_button = QPushButton("Previous Movie")
-        back_button.clicked.connect(self.getmovie)
+        back_button.clicked.connect(self.getprevious)
 
         button_layout.addWidget(back_button)
         button_layout.addWidget(next_button)
@@ -47,9 +52,27 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
 
     def getmovie(self):
-        text = controller.next_mcu_movie()
+        if self.movies: 
+            if self.current_movie_index < len(self.movies):
+                text, release_date = controller.next_mcu_movie(self.next_release)
+            else: 
+                text = self.movies[self.current_movie_index +1]
+            self.current_movie_index += 1
+        else:
+            text, release_date = controller.next_mcu_movie()
+        self.next_release = release_date
+        self.movies.append(text)
         self.movie_text.setText(text)
         self.movie_text.toHtml()
+
+    def getprevious(self): 
+        if self.movies and self.current_movie_index > 0:
+            text = self.movies[self.current_movie_index - 1]
+            self.current_movie_index -= 1
+            self.movie_text.setText(text)
+            self.movie_text.toHtml()
+
+
 
 
 
